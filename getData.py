@@ -16,6 +16,14 @@ def getRatings():
       ratings.append(rating)
   return ratings
 
+def allNumericRatings():
+  ratings = []
+  with open("data/ratings.dat") as f:
+    for line in f:
+      content = line.split("::")
+      ratings.append(int(content[2]))
+  return ratings
+
 def getUsers():
   users = []
   with open("data/users.dat") as f:
