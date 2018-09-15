@@ -1,0 +1,94 @@
+\documentclass{article}[]
+\usepackage[textwidth=15cm]{geometry}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[hyphens]{url}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+\usepackage{pdfpages}
+\usepackage{csvsimple}
+\usepackage{float}
+\usepackage{csquotes}
+\makeatletter
+\newcommand\urlfootnote@[1]{\footnote{\url@{#1}}}
+\DeclareRobustCommand{\urlfootnote}{\hyper@normalise\urlfootnote@}
+\makeatother
+
+\begin{document}
+	\title{Advances in Data Mining - Assignment 1}
+	\author{Anonymous}
+	\maketitle
+	\lstset{
+		basicstyle=\ttfamily,
+		keywordstyle=\bfseries,
+		language=Java,
+		frame=single,
+		aboveskip=11pt,
+		belowskip=11pt,
+		breaklines=true,
+		breakatwhitespace=false,
+		showspaces=false,
+		showstringspaces=false,
+		numbers=left,
+		stepnumber=1,    
+		firstnumber=1,
+		numberfirstline=true
+	}
+
+\section{Introduction}
+This paper is the result of fulfilling assignment 1 of the \emph{Advances in Data Mining} course at the \emph{University of Leiden}.
+Within this report different examples of \emph{recommender systems} (Section \ref{sec:recommender}) are presented (Section \ref{sec:algorithms}). Section \ref{sec:setup} explains what data is used how in order to evaluate the efficiency of the different algorithms.
+
+\subsection{Recommender Systems}
+\label{sec:recommender}
+A recommender system is made to make suggestions to users for objects.\cite{miller2003movielens}
+Popular examples include
+- People who bought x also bought y
+- people that watched video x also watched y
+- people who rated x with 5 stars also rated y very high
+
+A recommender system always has a \emph{user} and an \emph{item}. The goal is to numerically estimate the likelihood that \emph{user} likes \emph{item}. One can then do that for all available items and show the ones with the highest likelihood.
+For this to work well a dataset including many different users with their consumption history is ideal.
+
+\subsection{Experiment Setup}
+\label{sec:setup}
+We will be using the \emph{MovieLens 1M} datasetconsisting of three \emph{collections}: Users, movies and ratings\cite{harper2016movielens}. Users can rate a movie with 0-5 stars. Based on all this data different approaches (\ref{sec:algorithms}) can be applied to estimate the probable rating for unrated items of a user.
+In order to improve the validity of the results 5 fold cross validation will be applied. This means even though there is but one dataset, the algorithms will be tested 5 times against random subsets of the dataset.
+As a numeric quality measure the Root Mean Squared Error and the Mean Absolute Error will be used.
+The results of the experiments can be found in Section \ref{sec:result}
+
+\section{Algorithms}
+\label{sec:algorithms}
+\subsection{Naive Approaches}
+Four different naive approaches will be used\cite{slides}. The first three ones are quite trivial, and are merely the building blocks for the fourth one.
+Equation \ref{eq:1} just takes the mean of \emph{all} available ratings. Hence there is no user or item specific score, it will be the same suggested rating for every possible (User, Item) combination. Equation \ref{eq:2} and \ref{eq:3} are also quite simple. They take the mean of all ratings for an item or all ratings made by one specific user. This at least changes ratings per item for Equation \ref{eq:2} or per user for Equation \ref{eq:3}.
+Equation \ref{eq:4} now patches together Equation \ref{eq:2} and \ref{eq:3}, by summing them up with weights that are determined by applying linear regression.
+
+\begin{equation}
+\label{eq:1}
+R_{global}(User, Item) = mean(All Ratings)
+\end{equation}
+\begin{equation}
+\label{eq:2}
+R_{item}(User, Item) = mean(all ratings for item)
+\end{equation}
+\begin{equation}
+\label{eq:3}
+R_{user}(User, Item) = mean(all ratings by user)
+\end{equation}
+\begin{equation}
+\label{eq:4}
+R_{user}(User, Item) = \alpha * R_{user}(User, Item) + \beta * R_{item}(User, Item) * \gamma
+\end{equation}
+
+\subsection{Sophisticated}
+
+\section{Results}
+\label{sec:result}
+
+
+\bibliography{report} 
+\bibliographystyle{ieeetr}
+	
+	
+\end{document}
