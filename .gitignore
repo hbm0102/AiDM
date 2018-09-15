@@ -96,7 +96,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
-
+.DS_Store
 # mkdocs documentation
 /site
 *.out
