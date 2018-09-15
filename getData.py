@@ -21,25 +21,19 @@ def getRatings():
       ratings.append(rating)
   return ratings
 
-def getRatingsForMovie(movieId):
-  ratings = []
-  with open("data/ratings.dat") as f:
-    for line in f:
-      content = line.split("::")
-      if (int(content[1]) == movieId):
-        rating = {"userId": int(content[0]), "movieId": int(content[1]), "rating": int(content[2]), "timestamp": content[3]}
-        ratings.append(rating)
-  return ratings
+def getRatingsForMovie(movieId, ratings=getRatings()):
+  movieRatings = []
+  for rating in ratings:
+    if (rating["movieId"] == movieId):
+      movieRatings.append(rating)
+  return movieRatings
 
-def getRatingsForUser(userId):
-  ratings = []
-  with open("data/ratings.dat") as f:
-    for line in f:
-      content = line.split("::")
-      if (int(content[0]) == userId):
-        rating = {"userId": int(content[0]), "movieId": int(content[1]), "rating": int(content[2]), "timestamp": content[3]}
-        ratings.append(rating)
-  return ratings
+def getRatingsForUser(userId, ratings=getRatings()):
+  userRatings = []
+  for rating in ratings:
+    if (rating["userId"] == userId):
+      userRatings.append(rating)
+  return userRatings
 
 def allNumericRatings():
   ratings = []
