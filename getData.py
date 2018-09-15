@@ -1,3 +1,8 @@
+import numpy as np
+
+#to make sure you are able to repeat results, set the random seed to something:
+np.random.seed(17)
+
 def getMovies():
   movies = []
   with open("data/movies.dat") as f:
@@ -53,3 +58,29 @@ def getUsers():
       user = {"userId": int(content[0]), "gender": content[1], "age": int(content[2]), "occupation": content[3], "zip": content[4]}
       users.append(user)
   return users
+
+def getRatingSets():
+  ratings = getRatings()
+  nfolds = 5
+  np.random.shuffle(ratings)
+  sampleSize = len(ratings) / nfolds
+  print("each sample set is gonna be", sampleSize)
+  # for each fold:
+  sets = [
+    {"train": [], "test": [], "min": 0, "max": sampleSize},
+    {"train": [], "test": [], "min": sampleSize, "max": sampleSize * 2},
+    {"train": [], "test": [], "min": sampleSize * 2, "max": sampleSize * 3},
+    {"train": [], "test": [], "min": sampleSize * 3, "max": sampleSize * 4},
+    {"train": [], "test": [], "min": sampleSize * 4, "max": sampleSize * 5}
+  ]
+  for ratingIndex in range(len(ratings)):
+    rating = ratings[ratingIndex]
+    for set in sets:
+      if (ratingIndex >= set["min"] and ratingIndex < set["max"]):
+        set["train"].append(rating)
+      else:
+        set["test"].append(rating)
+  return sets
+
+def rmse(predictions, targets):
+    return np.sqrt(((predictions - targets) ** 2).mean())
